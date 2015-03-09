@@ -1,4 +1,5 @@
 import random
+import json
 from Characters import *
 from Weapons import *
 
@@ -37,6 +38,10 @@ class Deck():
     
 class Card():
 
+    @staticmethod
+    def from_json(json):
+        pass
+
     def __init__(self, character, weapons):
         self._character = character
         self._weapons = weapons
@@ -45,8 +50,19 @@ class Card():
         weapon = self._weapons[weapon_index - 1]
         card._character.reduce_hp(weapon.get_dp())
 
+    def to_json(self):
+        weapons = []
+        for weapon in self._weapons:
+            weapons.append({"name" : weapon.__class__.__name__,
+                            "dp" : weapon.get_dp()})
+        card = {"character" : self._character.__class__.__name__,
+                "hp" : self._character.get_hp(),
+                "weapons" : weapons}
+        return json.dump(card)
+
     def __str__(self):
         s = "%s\nHP: %d\nWaffen:\n" %(self._character.__class__.__name__, self._character.get_hp())
         for i in range(len(self._weapons)):
             s = s + str(i+1) + ". " + self._weapons[i].__class__.__name__ + "\n"
         return s
+

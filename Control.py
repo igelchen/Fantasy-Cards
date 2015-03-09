@@ -27,3 +27,7 @@ while True:
 
     elif action.get_type() == "attack":
         print "Greife an mit %d" % action.get_weapon()
+
+    elif action.get_type() == "close":
+        print "Spiel beendet"
+        break
