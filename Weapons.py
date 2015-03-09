@@ -4,7 +4,7 @@ class Weapon():
                 self._damage_points = damage_points
 
         def get_dp(self):
-                return damage_points
+                return self._damage_points
 
 
 class Sword(Weapon):
