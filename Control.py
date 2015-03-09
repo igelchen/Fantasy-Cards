@@ -23,7 +23,8 @@ while True:
         print "Das Spiel beginnt"
 
     elif action.get_type() == "swap":
-        print "Tausche %d mit %d" %(action.get_index1(), action.get_index2())
+        deck.swap(action.get_index1(), action.get_index2())
+        gui.show_deck(deck)
 
     elif action.get_type() == "attack":
         print "Greife an mit %d" % action.get_weapon()

@@ -29,6 +29,12 @@ class Deck():
             self._deck_pointer = 0
         return card
 
+    def swap(self, index1, index2):
+        temp = self._cards[index1 - 1]
+        self._cards[index1 - 1] = self._cards[index2 - 1]
+        self._cards[index2 - 1] = temp
+
+
     def __str__(self):
         s = ""
         for i in range(len(self._cards)):
