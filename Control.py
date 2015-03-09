@@ -2,6 +2,7 @@ from Cards import *
 from Characters import *
 from GUI import *
 from Weapons import *
+from Network import *
 
 #orc = Orc(3,4,6)
 #orc.reduce_hp(50)
@@ -10,6 +11,18 @@ from Weapons import *
 #orc.reduce_hp(50)
 #print orc.get_hp()
 #print orc.is_alive()
+
+server = Connection()
+client = Connection("127.0.0.1")
+client.send("hallo")
+action = server.get_action()
+print action.get_message()
+server.send("hi")
+action = client.get_action()
+print action.get_message()
+server.close()
+client.close()
+
 
 deck = Deck.create_random_deck(10)
 
@@ -32,3 +45,4 @@ while True:
     elif action.get_type() == "close":
         print "Spiel beendet"
         break
+
