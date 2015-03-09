@@ -41,8 +41,9 @@ class Card():
         self._character = character
         self._weapons = weapons
 
-    def attack(self, card):
-        pass
+    def attack(self, card, weapon_index):
+        weapon = self._weapons[weapon_index - 1]
+        card._character.reduce_hp(weapon.get_dp())
 
     def __str__(self):
         s = "%s\nHP: %d\nWaffen:\n" %(self._character.__class__.__name__, self._character.get_hp())
