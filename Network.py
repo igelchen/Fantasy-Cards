@@ -45,6 +45,14 @@ class Connection(threading.Thread):
 		action = AttackAction(card)
 		self.send(pickle.dumps(action))
 
+	def send_next_card(self, card):
+		action = NextCardAction(card)
+		self.send(pickle.dumps(action))
+
+	def send_updated_card(self, card):
+		action = UpdateAction(card)
+		self.send(pickle.dumps(action))
+
 	def close(self):
 		self._closed = True
 		self._sock.close()
@@ -76,6 +84,26 @@ class AttackAction(Action):
 
     def __init__(self, card):
         Action.__init__(self, "attack")
+        self._card = card
+
+    def get_card(self):
+        return self._card
+
+
+class NextCardAction(Action):
+
+    def __init__(self, card):
+        Action.__init__(self, "skip")
+        self._card = card
+
+    def get_card(self):
+        return self._card
+
+
+class UpdateAction(Action):
+
+    def __init__(self, card):
+        Action.__init__(self, "update")
         self._card = card
 
     def get_card(self):
