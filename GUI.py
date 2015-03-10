@@ -49,7 +49,10 @@ class GUI(threading.Thread):
         self._enemy_card = StringVar()
         enemy_lbl = Label(self._root, textvariable=self._enemy_card, anchor=NW, bg="red")
         enemy_lbl.place(x = 450, y = 0, width=200, height=400)
-               
+              
+        self._btn_skip = Button(self._root, text="naechste Karte", command=self._on_skip)
+        self._btn_skip.place(x = 340, y = 140)
+
         self._gui_ready.set()
         self._root.mainloop()
 
@@ -77,6 +80,10 @@ class GUI(threading.Thread):
     def _on_attack(self):
         weapon = int(self._txt_weapon.get("1.0",'end-1c'))
         self._actions.put(AttackAction(weapon))
+
+    def _on_skip(self):
+        self._actions.put(NextCardAction())
+
 
     
 class Action():
@@ -121,4 +128,10 @@ class CloseAction(Action):
 
     def __init__(self):
         Action.__init__(self, "close")
+
+
+class NextCardAction(Action):
+
+    def __init__(self):
+        Action.__init__(self, "skip")
         
