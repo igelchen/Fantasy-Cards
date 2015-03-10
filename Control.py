@@ -12,19 +12,18 @@ from Network import *
 #print orc.get_hp()
 #print orc.is_alive()
 
-server = Connection()
-client = Connection("127.0.0.1")
-client.send("hallo")
-action = server.get_action()
-print action.get_message()
-server.send("hi")
-action = client.get_action()
-print action.get_message()
-server.close()
-client.close()
+
 
 
 deck = Deck.create_random_deck(10)
+server = Connection()
+client = Connection("127.0.0.1")
+client.send_attacking_card(deck.next_card())
+action = server.get_action()
+print action.get_card()
+server.close()
+client.close()
+
 
 gui = GUI()
 gui.show_deck(deck)

@@ -1,6 +1,7 @@
 import socket
 import Queue
 import threading
+import pickle
 
 class Connection(threading.Thread):
 
@@ -25,12 +26,12 @@ class Connection(threading.Thread):
 			self._sock.settimeout(1)
 			while not self._closed:
 				try:
-					data, addr = self._sock.recvfrom(2048)
+					data, addr = self._sock.recvfrom(4096)
 				except:
 					continue
 				if self._remote_addr == None:
 					self._remote_addr = addr
-				self._actions.put(MessageAction(data))
+				self._actions.put(pickle.loads(data))
 		except Exception, e:
 			if not self._closed:
 				raise e
@@ -39,6 +40,10 @@ class Connection(threading.Thread):
 		if self._remote_addr == None:
 			raise Exceeption("Fehler beim Senden: die Gegenstelle ist nicht bekannt! Bevor etwas gesendet wird muss von der Gegenstelle etwas empfangen werden!")
 		self._sock.sendto(message, self._remote_addr)
+
+	def send_attacking_card(self, card):
+		action = AttackAction(card)
+		self.send(pickle.dumps(action))
 
 	def close(self):
 		self._closed = True
@@ -65,3 +70,13 @@ class MessageAction(Action):
 
     def get_message(self):
         return self._message
+
+
+class AttackAction(Action):
+
+    def __init__(self, card):
+        Action.__init__(self, "attack")
+        self._card = card
+
+    def get_card(self):
+        return self._card
